@@ -238,5 +238,26 @@ async def account_login(bot: Client, m: Message):
         await m.reply_text(e)
     await m.reply_text("🔰Done Boss🔰")
 
+# ------------ RENDER PORT FIX ---------------
+from flask import Flask
+from threading import Thread
 
+app = Flask('')
+
+@app.route('/')
+def home():
+    return "Bot is running on Render!"
+
+def run_server():
+    app.run(host="0.0.0.0", port=10000)
+
+def keep_alive():
+    server = Thread(target=run_server)
+    server.start()
+# --------------------------------------------
+
+# Start the dummy web server (important for Render)
+keep_alive()
+
+# Run your Telegram bot
 bot.run()
